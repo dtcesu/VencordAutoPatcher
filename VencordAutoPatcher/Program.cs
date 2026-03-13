@@ -8,17 +8,29 @@ using VencordAutoPatcher;
 
 internal class Program
 {
+    static string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+    static string vapDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "VencordAutoPatcher");
+    static string configPath = Path.Combine(vapDir, ".firstlaunch");
+    static string installerPath = Path.Combine(vapDir, "VencordCLI.exe");
+    static string discordUpdateExe = Path.Combine(userProfile, "AppData", "Local", "Discord", "Update.exe");
+    static void Settings()
+    {
+        Console.Clear();
+        ConsoleUtilities.Log("Available options:");
+        ConsoleUtilities.Log("(r): clear firstlaunch flag");
+        string option = ConsoleUtilities.Ask();
+        if (option == "r") // TODO: make this a switch
+            File.Delete(configPath);
+        ConsoleUtilities.Log("press any key to continue.");
+        Console.ReadKey();
+        return;
+    }
+
     private static void Main(string[] args)
     {
         Console.Title = "VencordAutoPatcher";
         Console.SetWindowSize(70, 30);
         Console.SetBufferSize(70, 30);
-
-        string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        string vapDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "VencordAutoPatcher");
-        string configPath = Path.Combine(vapDir, ".firstlaunch");
-        string installerPath = Path.Combine(vapDir, "VencordCLI.exe");
-        string discordUpdateExe = Path.Combine(userProfile, "AppData", "Local", "Discord", "Update.exe");
 
         if (args.Length < 1)
         {
@@ -38,13 +50,10 @@ internal class Program
                 Console.ReadKey();
                 Environment.Exit(0);
             }
-        }
 
-        ConsoleUtilities.Log("Available options:");
-        ConsoleUtilities.Log("(r): clear firstlaunch flag");
-        string option = ConsoleUtilities.Ask();
-        if (option == "r") // TODO: make this a switch
-            File.Delete(configPath);
+            while (true)
+                Settings();
+        }
 
 
         switch (args[0])

@@ -16,7 +16,7 @@ namespace VencordAutoPatcher
             string newPath = Path.Combine(vapDir, "VencordAutoPatcher.exe");
 
             Console.Clear();
-            File.Copy(Assembly.GetExecutingAssembly().Location.Replace(".dll", ".exe"), newPath);
+            File.Copy(Assembly.GetExecutingAssembly().Location.Replace(".dll", ".exe"), newPath, true);
             RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             key.SetValue("Vencord Auto Patcher", $"{newPath} -autorun");
             key.Close();
@@ -24,3 +24,4 @@ namespace VencordAutoPatcher
         }
     }
 }
+    
