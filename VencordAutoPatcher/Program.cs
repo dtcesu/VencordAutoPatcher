@@ -33,10 +33,11 @@ internal class Program
             File.WriteAllText(configPath, "");
         }
 
+        Console.Clear();
+
         ConsoleUtilities.Log("Downloading Vencord CLI Installer");
         using (WebClient web = new WebClient())
             web.DownloadFile("https://github.com/Vencord/Installer/releases/latest/download/VencordInstallerCli.exe", installerPath);
-        
 
         ConsoleUtilities.Log("Successfully downloaded VencordInstallerCli.exe");
 
