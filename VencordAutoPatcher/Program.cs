@@ -24,6 +24,28 @@ internal class Program
         string installerPath = Path.Combine(vapDir, "VencordCLI.exe");
         string discordUpdateExe = Path.Combine(userProfile, "AppData", "Local", "Discord", "Update.exe");
 
+        if (args.Length > 0 && args[0] == "-autorun")
+        {
+            Process updater = null;
+
+            while (updater == null)
+            {
+                updater = Process.GetProcessesByName("Update").FirstOrDefault();
+                Process discord = Process.GetProcessesByName("Discord").FirstOrDefault();
+
+                if (updater == null && discord != null)
+                    Environment.Exit(0);
+
+                Thread.Sleep(1000);
+            }
+
+            Notify("Discord has been updated, patching will occur.");
+            updater.WaitForExit();
+
+            Patcher.PatchDiscord(installerPath);
+            Environment.Exit(0);
+        }
+
         if (!File.Exists(configPath))
         {
             using (TaskDialog td = new TaskDialog())
@@ -67,27 +89,6 @@ internal class Program
                     File.Delete(configPath);
                 }
             }
-        }
-
-        if (args.Length > 0 && args[0] == "-autorun")
-        {
-            Process updater = null;
-
-            while (updater == null)
-            {
-                updater = Process.GetProcessesByName("Update").FirstOrDefault();
-                Process discord = Process.GetProcessesByName("Discord").FirstOrDefault();
-
-                if (updater == null && discord != null)
-                    Environment.Exit(0);
-
-                Thread.Sleep(1000);
-            }
-
-            Notify("Discord has been updated, patching will occur.");
-            updater.WaitForExit();
-
-            Patcher.PatchDiscord(installerPath);
         }
     }
 
