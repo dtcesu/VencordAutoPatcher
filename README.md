@@ -1,5 +1,3 @@
-esu is a faggot and loves furry porn... he tried to touch ploosh...
-
 <p align="center">
   <img alt="Banner" src="https://raw.githubusercontent.com/dtcesu/VencordAutoPatcher/refs/heads/main/media/banner.png">  
   <hr>
